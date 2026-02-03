@@ -1,5 +1,5 @@
 const { pergunta } = require('../READLINE/Readline');
-
+const usuarios = require('../CRUDs/Arrays/usuarios');
 const { Usuario } = require('../Entidades/Usuario');
 const { TipoUsuario } = require('../Entidades/ENUMs/TipoUsuario');
 const { Medico } = require('../Entidades/Medico');
@@ -13,11 +13,11 @@ async function CadastroUsuario(Menu) {
     const senhaHash = await pergunta("Digite a senha: ");
 
     console.log("Tipos de usuário:\n1. ADMIN\n2. MEDICO\n3. FUNCIONARIO");
-    let usuario_tipo = await pergunta("Escolha o tipo de usuário (1-3): ");
+    const usuario_tipo = await pergunta("Escolha o tipo de usuário (1-3): ");
 
 
     if (usuario_tipo === '1') {
-        usuario_tipo = TipoUsuario.ADMIN;
+        let usuario_tipo = TipoUsuario.ADMIN;
 
         const autorizacao_admin = await pergunta("Digite a autorização do admin: ");
 
@@ -30,13 +30,16 @@ async function CadastroUsuario(Menu) {
             usuario_tipo,
             autorizacao_admin
         );
+        usuarios[senhaHash] = novoUsuario;
+
         console.log("Usuário cadastrado com sucesso:");
         console.log(novoUsuario);
+        console.log(usuarios);
 
         Menu();
 
     } else if (usuario_tipo === '2') {
-        usuario_tipo = TipoUsuario.MEDICO;
+        let usuario_tipo = TipoUsuario.MEDICO;
         const crm = await pergunta("Digite o CRM do médico: ");
         const especialidade = await pergunta("Digite a especialidade do médico: ");
 
@@ -51,13 +54,16 @@ async function CadastroUsuario(Menu) {
             crm,
             especialidade
         );
+        usuarios[senhaHash] = novoUsuario;
+
         console.log("Usuário cadastrado com sucesso:");
+        console.log(usuarios);
         console.log(novoUsuario);
 
         Menu();
 
     } else if (usuario_tipo === '3') {
-        usuario_tipo = TipoUsuario.FUNCIONARIO;
+        let usuario_tipo = TipoUsuario.FUNCIONARIO;
 
         novoUsuario = new Usuario(
             Date.now(),
@@ -67,46 +73,46 @@ async function CadastroUsuario(Menu) {
             senhaHash,
             usuario_tipo
         );
+        usuarios[senhaHash] = novoUsuario;
+
         console.log("Usuário cadastrado com sucesso:");
         console.log(novoUsuario);
+        console.log(usuarios);
 
         Menu();
 
     } else {
         console.log("Tipo de usuário inválido. Tente novamente.");
         return CadastroUsuario(Menu);
-
     }
 }
 
-async function LoginUsuario() {
-    usuario_email = await pergunta("Digite o email: ");
-    senhaHash = await pergunta("Digite a senha: ");
+async function LoginUsuario(Menu) {
+    const senha_login = await pergunta("Digite a senha: ");
+    
+    let usuarioEncontrado = null;
+    
+    for (const senhaHash in usuarios) {
+        let pesquisa = usuarios[senhaHash];
 
-    for (usuario_id in Usuario) {
-        pesquisarUsuario = null;
-
-        if (usuario_email && senhaHash === Usuario[usuario_id].usuario_email && Usuario[usuario_id].senhaHash) {
-            pesquisarUsuario = Usuario[usuario_id];
-
-
+        if (pesquisa.senhaHash == senha_login) {
+            usuarioEncontrado = pesquisa;
+        
+            break;
         }
-        break;
     }
     
-    if (!pesquisarUsuario) {
+    if (!usuarioEncontrado) {
         console.log("Usuário ou senha incorretos.");
 
         Menu();
     } 
     
     else {
-        console.log(`Usuário encontrado: \n\n\t${pesquisarUsuario}`);
-
+        console.log(`Usuário encontrado:`);
+        console.log(usuarioEncontrado);
         Menu();
     }
-
-
 }
 
 async function VerUsuario(Menu) {
