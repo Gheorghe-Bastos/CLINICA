@@ -87,36 +87,51 @@ async function CadastroUsuario(Menu) {
     }
 }
 
-async function LoginUsuario(Menu) {
-    const senha_login = await pergunta("Digite a senha: ");
-    
-    let usuarioEncontrado = null;
+function busca(entrada) {
     
     for (const senhaHash in usuarios) {
         let pesquisa = usuarios[senhaHash];
 
-        if (pesquisa.senhaHash == senha_login) {
-            usuarioEncontrado = pesquisa;
-        
-            break;
+        if (pesquisa.senhaHash == entrada) {
+            
+            return pesquisa
         }
     }
+    return null;
+}
+
+async function LoginUsuario(Menu) {
+    const entrada = await pergunta("Digite a senha: ");
+
+    const usuarioEncontrado = busca(entrada);
     
     if (!usuarioEncontrado) {
         console.log("Usuário ou senha incorretos.");
 
-        Menu();
     } 
     
     else {
         console.log(`Usuário encontrado:`);
         console.log(usuarioEncontrado);
-        Menu();
+       
     }
+    
+    Menu();
 }
 
 async function VerUsuario(Menu) {
     console.log("Função de ver usuário chamada");
+
+    const pesquisa = await pergunta("Digite a senha do usuário que deseja ver: ");
+
+    const usuarioEncontrado = busca(pesquisa);
+
+    if (!usuarioEncontrado) {
+        console.log("Usuário não encontrado.");
+    } else {
+        console.log("Usuário encontrado:");
+        console.log(usuarioEncontrado);
+    }
 
     Menu();
 }
