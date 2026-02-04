@@ -112,13 +112,34 @@ async function LoginUsuario(Menu) {
     
     else {
         console.log(`Usuário encontrado:`);
-        console.log(usuarioEncontrado);
-       
+        console.log(usuarioEncontrado);  
     }
+
+    if (usuarioEncontrado.usuario_tipo === TipoUsuario.ADMIN) {
+        
+        menuAdmin();
+    } 
     
-    Menu();
+    else if (usuarioEncontrado.usuario_tipo === TipoUsuario.MEDICO) {
+        console.log("Menu do MÉDICO");
+    
+        menuMedico();
+    } 
+    
+    else if (usuarioEncontrado.usuario_tipo === TipoUsuario.FUNCIONARIO) {
+        console.log("Menu do FUNCIONÁRIO");
+        
+        menuFuncionario();
+    }
 }
 
+async function menuAdmin() {
+    console.log("\n\tMenu do ADMIN");
+    console.log("\n\t1. Gerenciar Conta | 2. Gerenciar Paciente | 3. Gerenciar Profissionais | 4. Fazer Logout | 5. Sair");
+    const escolha = await pergunta("Escolha uma opção (1-5): ");
+
+}
+    
 async function VerUsuario(Menu) {
     console.log("Função de ver usuário chamada");
 
