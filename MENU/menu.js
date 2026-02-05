@@ -1,4 +1,4 @@
-const { pergunta } = require('../READLINE/Readline');
+const { rl, pergunta } = require('../READLINE/Readline');
 const { CadastroUsuario, LoginUsuario } = require('../CRUDs/CRUDusuario');
 
 async function Menu() {
@@ -18,6 +18,11 @@ async function Menu() {
         case '3':
             console.log("Saindo...");
             rl.close();
+            break;
+
+        default:
+            console.log("Opção inválida. Tente novamente.");
+            Menu();
             break;
     }
 }

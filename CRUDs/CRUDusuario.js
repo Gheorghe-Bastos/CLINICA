@@ -1,11 +1,12 @@
-const { pergunta } = require('../READLINE/Readline');
+const { rl, pergunta } = require('../READLINE/Readline');
 const usuarios = require('../CRUDs/Arrays/usuarios');
 const { Usuario } = require('../Entidades/Usuario');
 const { TipoUsuario } = require('../Entidades/ENUMs/TipoUsuario');
 const { Medico } = require('../Entidades/Medico');
 const { Admin } = require('../Entidades/Admin');
+const { gerenciarPaciente } = require('./CRUDpaciente');
 
-async function CadastroUsuario(Menu) {
+async function CadastroUsuario(voltarMenu) {
 
     const nome = await pergunta("Digite o nome: ");
     const cpf = await pergunta("Digite o CPF: ");
@@ -36,7 +37,7 @@ async function CadastroUsuario(Menu) {
         console.log(novoUsuario);
         console.log(usuarios);
 
-        Menu();
+        voltarMenu();
 
     } else if (usuario_tipo === '2') {
         let usuario_tipo = TipoUsuario.MEDICO;
@@ -60,7 +61,7 @@ async function CadastroUsuario(Menu) {
         console.log(usuarios);
         console.log(novoUsuario);
 
-        Menu();
+        voltarMenu();
 
     } else if (usuario_tipo === '3') {
         let usuario_tipo = TipoUsuario.FUNCIONARIO;
@@ -79,11 +80,11 @@ async function CadastroUsuario(Menu) {
         console.log(novoUsuario);
         console.log(usuarios);
 
-        Menu();
+        voltarMenu();
 
     } else {
         console.log("Tipo de usuário inválido. Tente novamente.");
-        return CadastroUsuario(Menu);
+        return CadastroUsuario(voltarMenu);
     }
 }
 
@@ -100,14 +101,14 @@ function busca(entrada) {
     return null;
 }
 
-async function LoginUsuario(Menu) {
+async function LoginUsuario(voltarMenu) {
     const entrada = await pergunta("Digite a senha: ");
 
     const usuarioEncontrado = busca(entrada);
     
     if (!usuarioEncontrado) {
         console.log("Usuário ou senha incorretos.");
-
+        voltarMenu();
     } 
     
     else {
@@ -117,7 +118,7 @@ async function LoginUsuario(Menu) {
 
     if (usuarioEncontrado.usuario_tipo === TipoUsuario.ADMIN) {
         
-        menuAdmin();
+        menuAdmin(voltarMenu);
     } 
     
     else if (usuarioEncontrado.usuario_tipo === TipoUsuario.MEDICO) {
@@ -133,14 +134,41 @@ async function LoginUsuario(Menu) {
     }
 }
 
-async function menuAdmin() {
+async function menuAdmin(voltarMenu) {
     console.log("\n\tMenu do ADMIN");
-    console.log("\n\t1. Gerenciar Conta | 2. Gerenciar Paciente | 3. Gerenciar Profissionais | 4. Fazer Logout | 5. Sair");
+    console.log("\n| 1. Gerenciar Conta \n| 2. Gerenciar Pacientes \n| 3. Gerenciar Profissionais \n| 4. Fazer Logout \n| 5. Sair");
     const escolha = await pergunta("Escolha uma opção (1-5): ");
 
+    switch (escolha) {
+        case '1':
+            gerenciarContaAdmin(menuAdmin);
+            break;
+
+        case '2':
+            gerenciarPaciente(menuAdmin);
+            break;
+        
+        case '3':
+            gerenciarProfissionaisAdmin(menuAdmin);
+            break;
+
+        case '4':
+            voltarMenu();
+            break;
+
+        case '5':
+            console.log("Saindo do sistema.");
+            rl.close();
+            break;
+
+        default:
+            console.log("Opção inválida. Tente novamente.");
+            menuAdmin(voltarMenu);
+    }
 }
+
     
-async function VerUsuario(Menu) {
+async function VerUsuario(voltarMenu) {
     console.log("Função de ver usuário chamada");
 
     const pesquisa = await pergunta("Digite a senha do usuário que deseja ver: ");
@@ -154,21 +182,21 @@ async function VerUsuario(Menu) {
         console.log(usuarioEncontrado);
     }
 
-    Menu();
+    voltarMenu();
 }
 
-async function AtualizarUsuario(Menu) {
+async function AtualizarUsuario(voltarMenu) {
     console.log("Função de atualizar usuário chamada");
 
-    Menu();
+    voltarMenu();
 }
 
-async function DeletarUsuario(Menu) {
+async function DeletarUsuario(voltarMenu) {
     console.log("Função de deletar usuário chamada");
 
-    Menu();
+    voltarMenu();
 }
 
 
 
-module.exports = { CadastroUsuario, LoginUsuario }
+module.exports = { CadastroUsuario, LoginUsuario, menuAdmin }

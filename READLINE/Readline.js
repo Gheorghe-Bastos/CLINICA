@@ -8,4 +8,4 @@ function pergunta(texto) {
     return new Promise((resolve => rl.question(texto, resolve)));
 }
 
-module.exports = { pergunta };
+module.exports = { rl, pergunta };
