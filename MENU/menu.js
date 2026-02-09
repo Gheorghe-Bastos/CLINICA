@@ -82,6 +82,12 @@ async function menuAdmin(voltarMenu) {
     }
 }
 
+async function gerenciarContaAdmin(voltarMenuAdmin) {
+    console.log("\n\tGerenciamento de Conta do Admin");
+
+    voltarMenuAdmin();
+}
+
 async function gerenciarPaciente(voltarMenuAdmin) {
     console.log("\n\tGerenciamento de Paciente");
 
