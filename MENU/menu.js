@@ -17,10 +17,6 @@ async function Menu() {
         case '2':
             const usuarioLogado = await LoginUsuario();
 
-            if (!usuarioLogado) {
-                return null;
-            }
-
             switch (usuarioLogado.usuario_tipo) {
                 case TipoUsuario.ADMIN:
                     menuAdmin(Menu);

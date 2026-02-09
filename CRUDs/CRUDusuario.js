@@ -109,7 +109,7 @@ async function LoginUsuario(voltarMenu) {
     if (!usuarioEncontrado) {
         console.log("Usuário ou senha incorretos.");
         
-        return null;
+        return LoginUsuario(voltarMenu);
     } 
     
     else {
