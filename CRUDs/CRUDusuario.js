@@ -108,65 +108,17 @@ async function LoginUsuario(voltarMenu) {
     
     if (!usuarioEncontrado) {
         console.log("Usuário ou senha incorretos.");
-        voltarMenu();
+        
+        return null;
     } 
     
     else {
         console.log(`Usuário encontrado:`);
         console.log(usuarioEncontrado);  
-    }
 
-    if (usuarioEncontrado.usuario_tipo === TipoUsuario.ADMIN) {
-        
-        menuAdmin(voltarMenu);
-    } 
-    
-    else if (usuarioEncontrado.usuario_tipo === TipoUsuario.MEDICO) {
-        console.log("Menu do MÉDICO");
-    
-        menuMedico();
-    } 
-    
-    else if (usuarioEncontrado.usuario_tipo === TipoUsuario.FUNCIONARIO) {
-        console.log("Menu do FUNCIONÁRIO");
-        
-        menuFuncionario();
+        return usuarioEncontrado;
     }
 }
-
-async function menuAdmin(voltarMenu) {
-    console.log("\n\tMenu do ADMIN");
-    console.log("\n| 1. Gerenciar Conta \n| 2. Gerenciar Pacientes \n| 3. Gerenciar Profissionais \n| 4. Fazer Logout \n| 5. Sair");
-    const escolha = await pergunta("Escolha uma opção (1-5): ");
-
-    switch (escolha) {
-        case '1':
-            gerenciarContaAdmin(menuAdmin);
-            break;
-
-        case '2':
-            gerenciarPaciente(menuAdmin);
-            break;
-        
-        case '3':
-            gerenciarProfissionaisAdmin(menuAdmin);
-            break;
-
-        case '4':
-            voltarMenu();
-            break;
-
-        case '5':
-            console.log("Saindo do sistema.");
-            rl.close();
-            break;
-
-        default:
-            console.log("Opção inválida. Tente novamente.");
-            menuAdmin(voltarMenu);
-    }
-}
-
     
 async function VerUsuario(voltarMenu) {
     console.log("Função de ver usuário chamada");
@@ -199,4 +151,4 @@ async function DeletarUsuario(voltarMenu) {
 
 
 
-module.exports = { CadastroUsuario, LoginUsuario, menuAdmin }
+module.exports = { CadastroUsuario, LoginUsuario }
