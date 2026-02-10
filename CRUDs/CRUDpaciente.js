@@ -1,16 +1,22 @@
 const { rl, pergunta } = require('../READLINE/Readline');
 const pacientes = require('./Arrays/pacientes');
 
-async function cadastrarPaciente() {
+async function cadastrarPaciente(voltarMenu) {
     console.log("\n\tCadastro de Paciente");
+
+    voltarMenu();
 }
 
-async function verPaciente() {
-    console.log("\n\tVerificação de Paciente");
+async function buscarPaciente(voltarMenu) {
+    console.log("\n\tBusca de Paciente");
+
+    voltarMenu();
 }
 
-async function atualizarPaciente() {
-    console.log("\n\tAtualização de Paciente");
+function verPacientes(voltarMenu) {
+    console.log("\n\tLista de Pacientes:");
+
+    voltarMenu();
 }
 
-module.exports = { cadastrarPaciente, verPaciente, atualizarPaciente };
+module.exports = { cadastrarPaciente, buscarPaciente, verPacientes };

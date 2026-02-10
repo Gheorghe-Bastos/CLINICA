@@ -1,6 +1,7 @@
 const { rl, pergunta } = require('../READLINE/Readline');
 const { CadastroUsuario, LoginUsuario } = require('../CRUDs/CRUDusuario');
 const { TipoUsuario } = require('../Entidades/ENUMs/TipoUsuario');
+const { cadastrarPaciente, buscarPaciente, verPacientes } = require('../CRUDs/CRUDpaciente');
 
 async function Menu() {
 
@@ -47,8 +48,9 @@ async function Menu() {
 
 async function menuAdmin(voltarMenu) {
     console.log("\n\tMenu do ADMIN");
-    console.log("\n| 1. Gerenciar Conta \n| 2. Gerenciar Pacientes \n| 3. Gerenciar Profissionais \n| 4. Fazer Logout \n| 5. Sair");
-    const escolha = await pergunta("Escolha uma opção (1-5): ");
+    console.log("\n| 1. Gerenciar Conta \n| 2. Gerenciar Pacientes \n| 3. Gerenciar Profissionais",
+         "\n| 4. gerenciar Agendas \n| 5. Voltar \n| 6. Sair");
+    const escolha = await pergunta("Escolha uma opção (1-6): ");
 
     switch (escolha) {
         case '1':
@@ -60,14 +62,18 @@ async function menuAdmin(voltarMenu) {
             break;
         
         case '3':
-            gerenciarProfissionaisAdmin(menuAdmin);
+            gerenciarProfissionalAdmin(menuAdmin);
             break;
 
         case '4':
-            voltarMenu();
+            gerenciarAgendasAdmin(menuAdmin);
             break;
 
         case '5':
+            voltarMenu();
+            break;
+
+        case '6':
             console.log("Saindo do sistema.");
             rl.close();
             break;
@@ -78,16 +84,47 @@ async function menuAdmin(voltarMenu) {
     }
 }
 
-async function gerenciarContaAdmin(voltarMenuAdmin) {
+async function gerenciarContaAdmin(voltarMenu) {
     console.log("\n\tGerenciamento de Conta do Admin");
+
+    voltarMenu();
+}
+
+async function gerenciarPaciente(voltarMenu) {
+    console.log("\n\tGerenciamento de Paciente");
+
+    console.log("1. Cadastrar Paciente \n2. buscar Paciente \n3. Ver Pacientes \n4. Voltar");
+    const escolha = await pergunta("Escolha uma opção (1-4): ");
+
+    switch (escolha) {
+
+        case '1':
+            cadastrarPaciente(gerenciarPaciente);
+            break;
+        case '2':
+            buscarPaciente(gerenciarPaciente);
+            break;
+        case '3':
+            verPacientes(gerenciarPaciente);
+            break;
+        case '4':
+            voltarMenu();
+            break;
+    }
+}
+
+async function gerenciarProfissionalAdmin(voltarMenuAdmin) {
+
+    console.log("\n\tGerenciamento de Profissionais do Admin");
 
     voltarMenuAdmin();
 }
 
-async function gerenciarPaciente(voltarMenuAdmin) {
-    console.log("\n\tGerenciamento de Paciente");
+async function gerenciarAgendasAdmin(voltarMenu) {
 
-    voltarMenuAdmin();
+    console.log("\n\tGerenciamento de Agendas do Admin");
+
+    voltarMenu();
 }
 
 Menu()

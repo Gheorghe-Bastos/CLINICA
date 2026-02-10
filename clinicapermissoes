@@ -1,0 +1,93 @@
+5 - Permissões (admin x funcionario x medico)
+
+fluxo⬇️ 
+
+#Login
+
+Usuário se autentica
+
+Sistema identifica o papel (role)
+
+# Autorização
+
+A cada ação, o sistema valida:
+
+papel
+
+recurso
+
+tipo de ação (ver, criar, editar, excluir)
+
+#Exibição de interface
+
+O usuário só vê o que pode usar
+
+O que não aparece → não gera confusão
+
+Acessos: (adm, atendente, medico)
+
+adm:
+
+cadastro de pacientes#
+Criar, editar e excluir pacientes;
+Ver todos os dados;
+Corrigir duplicidades;
+Auditar acessos;
+
+agendas#
+Ver todas as agendas;
+Criar, editar e excluir consultas;
+Configurar horários de trabalho;
+
+cadastro de profissional#
+Cadastrar profissional;
+Editar dados;
+Ativar / inativar;
+Vincular usuário;
+
+ficha de paciente#
+Visualizar ficha completa;
+Corrigir dados administrativos da ficha;
+Auditar acessos;
+NÃO altera histórico clínico;
+
+atendente:
+
+cadastro de paciente#
+Cadastrar paciente;
+Editar dados básicos;
+Visualizar ficha do paciente;
+NÃO acessa dados clínicos sensíveis;
+
+agenda#
+Ver agendas de todos os profissionais;
+Criar consultas;
+Remarcar consultas;
+Cancelar consultas;
+Confirmar presença;
+
+ficha de paciente#
+Visualizar dados básicos da ficha do paciente;
+Visualizar histórico de consultas do paciente;
+NÃO acessa informações clínicas;
+NÃO edita histórico;
+
+medico:
+
+Agenda#
+Ver apenas a própria agenda;
+Ver pacientes do dia;
+Iniciar e finalizar atendimento;
+Não cria nem altera horários;
+
+Cadastro de profissional#
+Visualizar seu próprio cadastro;
+Visualizar sua agenda;
+NÃO edita dados cadastrais;
+NÃO visualiza outros profissionais;
+
+ficha do paciente#
+Visualizar ficha do paciente;
+Visualizar histórico;
+Registrar evolução da consulta (fora do MVP);
+NÃO altera dados administrativos;

@@ -4,7 +4,6 @@ const { Usuario } = require('../Entidades/Usuario');
 const { TipoUsuario } = require('../Entidades/ENUMs/TipoUsuario');
 const { Medico } = require('../Entidades/Medico');
 const { Admin } = require('../Entidades/Admin');
-const { gerenciarPaciente } = require('./CRUDpaciente');
 
 async function CadastroUsuario(voltarMenu) {
 
